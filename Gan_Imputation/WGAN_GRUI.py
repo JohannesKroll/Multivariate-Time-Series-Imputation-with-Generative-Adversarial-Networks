@@ -392,7 +392,6 @@ class WGAN(object):
     def pretrain(self, start_epoch, counter, start_time):
 
         if start_epoch < self.pretrain_epoch:
-            # todo
             for epoch in range(start_epoch, self.pretrain_epoch):
                 # get batch data
                 self.datasets.shuffle(self.batch_size, True)
@@ -415,6 +414,8 @@ class WGAN(object):
                     print('self.imputed_deltasub: ' + str(len(imputed_deltasub)))
 
                     # pretrain
+                    # TODO: setting an array element with a sequence.
+                    # Somewhere type not correct
                     _, summary_str, p_loss = self.sess.run([self.g_pre_optim, self.g_pretrain_sum, self.pretrain_loss],
                                                            feed_dict={self.x: data_x,
                                                                       self.m: data_m,

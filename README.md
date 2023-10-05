@@ -13,4 +13,4 @@ GRUI/max_auc  is the file that record final auc score
 
 ### Run with comapny dataset
 
-    python Physionet_main.py --csv-file 1 --data-path ../../financials_prediction/GAIN/data/all_date --isSlicing 0
+    python Physionet_main.py --csv-file 1 --data-path ../../financials_prediction/GAIN/data/all_date --isSlicing 0 --n-inputs 36
