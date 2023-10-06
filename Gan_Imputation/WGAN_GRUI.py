@@ -9,6 +9,7 @@ from tensorflow.python.ops import math_ops
 from ops import *
 from utils import *
 from GRUI import mygru_cell
+import logging
 
 """
 D输入标准化， 不要m 填充0
@@ -391,6 +392,8 @@ class WGAN(object):
 
     def pretrain(self, start_epoch, counter, start_time):
 
+        tf.logging.set_verbosity(tf.logging.DEBUG)
+
         if start_epoch < self.pretrain_epoch:
             for epoch in range(start_epoch, self.pretrain_epoch):
                 # get batch data
@@ -398,27 +401,48 @@ class WGAN(object):
                 idx = 0
                 # x,y,mean,m,deltaPre,x_lengths,lastvalues,files,imputed_deltapre,imputed_m,deltaSub,subvalues,imputed_deltasub
                 for data_x, data_y, data_mean, data_m, data_deltaPre, data_x_lengths, data_lastvalues, _, imputed_deltapre, imputed_m, deltaSub, subvalues, imputed_deltasub in self.datasets.nextBatch():
-                    print('self.g_pre_optim: ' + str(self.g_pre_optim))
-                    print('self.g_pretrain_sum: ' + str(tf.shape(self.g_pretrain_sum)))
-                    print('self.pretrain_loss: ' + str(tf.shape(self.pretrain_loss.shape)))
-                    print('self.x: ' + str(len(data_x)))
-                    print('self.m: ' + str(len(data_m)))
-                    print('self.deltaPre: ' + str(len(data_deltaPre)))
-                    print('self.mean: ' + str(len(data_mean)))
-                    print('self.x_lengths: ' + str(len(data_x_lengths)))
-                    print('self.lastvalues: ' + str(len(data_lastvalues)))
-                    print('self.deltaSub: ' + str(len(deltaSub)))
-                    print('self.subvalues: ' + str(len(subvalues)))
-                    print('self.imputed_m: ' + str(len(imputed_m)))
-                    print('self.imputed_deltapre: ' + str(len(imputed_deltapre)))
-                    print('self.imputed_deltasub: ' + str(len(imputed_deltasub)))
+                    # print('self.g_pre_optim: ' + str(self.g_pre_optim))
+                    # print('self.g_pretrain_sum: ' + str(tf.shape(self.g_pretrain_sum)))
+                    # print('self.pretrain_loss: ' + str(tf.shape(self.pretrain_loss.shape)))
+                    # print('self.x: ' + str(len(data_x)))
+                    # print('0 self.x: ' + str(len(data_x[0])))
+                    # print('type self.x: ' + str(type(data_x[0][0][0])))
+                    # print('self.m: ' + str(len(data_m)))
+                    # print('0 self.m: ' + str(len(data_m[0])))
+                    # print('type self.m: ' + str(type(data_m[0][0][0])))
+                    # print('self.deltaPre: ' + str(len(data_deltaPre)))
+                    # print('0 self.deltaPre: ' + str(len(data_deltaPre[0])))
+                    # print('type self.deltaPre: ' + str(type(data_deltaPre[0][0][0])))
+                    # print('self.mean: ' + str(len(data_mean)))
+                    # print('type self.mean: ' + str(type(data_mean[0])))
+                    # print('self.x_lengths: ' + str(len(data_x_lengths)))
+                    # print('type self.x_lengths: ' + str(type(data_x_lengths[0])))
+                    # print('self.lastvalues: ' + str(len(data_lastvalues)))
+                    # print('0 self.lastvalues: ' + str(len(data_lastvalues[0])))
+                    # print('type self.lastvalues: ' + str(type(data_lastvalues[0][0][0])))
+                    # print('self.deltaSub: ' + str(len(deltaSub)))
+                    # print('0 self.deltaSub: ' + str(len(deltaSub[0])))
+                    # print('type self.deltaSub: ' + str(type(deltaSub[0][0][0])))
+                    # print('self.subvalues: ' + str(len(subvalues)))
+                    # print('0 self.subvalues: ' + str(len(subvalues[0])))
+                    # print('type self.subvalues: ' + str(type(subvalues[0][0][0])))
+                    # print('self.imputed_m: ' + str(len(imputed_m)))
+                    # print('0 self.imputed_m: ' + str(len(imputed_m[0])))
+                    # print('type self.imputed_m: ' + str(type(imputed_m[0][0][0])))
+                    # print('self.imputed_deltapre: ' + str(len(imputed_deltapre)))
+                    # print('0 self.imputed_deltapre: ' + str(len(imputed_deltapre[0])))
+                    # print('type self.imputed_deltapre: ' + str(type(imputed_deltapre[0][0][0])))
+                    # print('self.imputed_deltasub: ' + str(len(imputed_deltasub)))
+                    # print('0 self.imputed_deltasub: ' + str(len(imputed_deltasub[0])))
+                    # print('type self.imputed_deltasub: ' + str(type(imputed_deltasub[0][0][0])))
 
                     # pretrain
                     # TODO: setting an array element with a sequence.
                     # Somewhere type not correct
+                    # Try out every variable
                     _, summary_str, p_loss = self.sess.run([self.g_pre_optim, self.g_pretrain_sum, self.pretrain_loss],
                                                            feed_dict={self.x: data_x,
-                                                                      self.m: data_m,
+                                                                      #self.m: data_m,
                                                                       self.deltaPre: data_deltaPre,
                                                                       self.mean: data_mean,
                                                                       self.x_lengths: data_x_lengths,

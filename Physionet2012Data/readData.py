@@ -267,7 +267,7 @@ class ReadPhysionetData():
                         one_lastvalues[i][j] = one_lastvalues[i - 1][j]
 
             for i in range(len(oneFile)):
-                t_deltaSub = [0.0] * len(oneFile[i])
+                t_deltaSub = [0.0] * int(len(oneFile[i]))
                 t_subvalue = [0.0] * len(oneFile[i])
                 one_deltaSub.append(t_deltaSub)
                 one_subvalues.append(t_subvalue)
@@ -279,9 +279,9 @@ class ReadPhysionetData():
                     continue
                 for j in range(len(oneFile[i])):
                     if one_m[i + 1][j] == 1:
-                        one_deltaSub[i][j] = one_time[i + 1] - one_time[i]
+                        one_deltaSub[i][j] = int(one_time[i + 1] - one_time[i])
                     if one_m[i + 1][j] == 0:
-                        one_deltaSub[i][j] = one_time[i + 1] - one_time[i] + one_deltaSub[i + 1][j]
+                        one_deltaSub[i][j] = int(one_time[i + 1] - one_time[i] + one_deltaSub[i + 1][j])
 
                     if one_m[i][j] == 1:
                         one_subvalues[i][j] = oneFile[i][j]
