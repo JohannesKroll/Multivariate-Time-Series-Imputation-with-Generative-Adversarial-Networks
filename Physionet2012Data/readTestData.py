@@ -49,13 +49,12 @@ class ReadPhysionetData():
                 for row in reader:
                     data = [0.0] * (len(self.dic) - 1)
                     if row[0] != current_company:
-                        current_company = row[0]
-                        self.fileNames.append(current_company)
-                        if company_data:
+                        if current_company and company_data and len(company_data) > 1:
+                            self.fileNames.append(current_company)
                             self.x.append(company_data)
-                        company_data = []
-                        if company_times:
                             self.times.append(company_times)
+                        current_company = row[0]
+                        company_data = []
                         company_times = []
                     date = datetime.strptime(row[1], "%Y-%m-%d")
                     company_times.append(float((date - start_date).days))
@@ -65,8 +64,10 @@ class ReadPhysionetData():
                         meancount[col - 2] += 1
                     company_data.append(data)
 
-                self.x.append(company_data)
-                self.times.append(company_times)
+                if company_data and len(company_data) > 1:
+                    self.fileNames.append(current_company)
+                    self.x.append(company_data)
+                    self.times.append(company_times)
 
             label = [1, 0]
             self.y = len(self.x) * [label]
@@ -427,7 +428,8 @@ class ReadPhysionetData():
                         try:
                             one_sub = [self.times[j][h + 1] - self.times[j][h]] * (len(self.dic) - 1)
                         except:
-                            print("error: " + str(h) + " " + str(len(self.times[j])) + " " + self.fileNames[j])
+                            pass
+                            print("error: " + str(h) + " " + str(len(self.times[j])) + " " + self.fileNames[j] + " lengths " + str(self.x_lengths[j]))
                         one_imputed_deltasub.append(one_sub)
                         one_f_g_m = [1.0] * (len(self.dic) - 1)
                         one_G_m.append(one_f_g_m)
